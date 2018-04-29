@@ -4,7 +4,8 @@
   "description": "Conway's Game of Life webapp",
   "main": "js/index.js",
   "scripts": {
-    "build": "gulp"
+    "build": "gulp",
+    "prettier": "prettier --write --loglevel=error css/*.* js/*.*"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +20,8 @@
     "gulp-postcss": "^7.0.0",
     "gulp-uglify": "^3.0.0",
     "postcss-cssnext": "^3.0.2"
+  },
+  "dependencies": {
+    "prettier": "^1.12.1"
   }
 }

@@ -1,35 +1,33 @@
-/*define([], (require) => {
-  const Game = require('./game').Game;
-  const game = new Game([
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0]
-  ]);
+require(['game', 'view'], (game, view) => {
+	const Game = game.Game;
+	const View = view.View;
 
-  game.print();
-  game.next();
-  game.print();
-});*/
+	const boardView = new View();
+	boardView.init();
 
-require(['game'], (game) => {
-  const Game = game.Game;
-  const newGame = new Game([
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0]
-  ]);
+	const gameBoard = boardView.getBoard();
+	const currentGame = new Game(gameBoard);
 
-  newGame.print();
-  newGame.next();
-  newGame.print();
+	const checkboxes = [].slice.call(
+		document.querySelectorAll('input[type=checkbox]')
+	);
+	const nextButton = document.querySelector('#next');
+
+	const onCheckboxChange = ev => {
+		const x = ev.target.dataset.row;
+		const y = ev.target.dataset.col;
+		currentGame.setCell(x, y, !!ev.target.checked);
+	};
+
+	const onNext = ev => {
+		currentGame.next();
+		const currentBoard = currentGame.getBoard();
+		currentGame.print();
+		boardView.setBoard(currentBoard, checkboxes);
+	};
+
+	checkboxes.forEach(checkbox =>
+		checkbox.addEventListener('change', onCheckboxChange)
+	);
+	nextButton.addEventListener('click', onNext);
 });
