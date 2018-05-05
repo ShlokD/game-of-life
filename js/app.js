@@ -117,17 +117,30 @@ boardView.init();
 
 const gameBoard = boardView.getBoard();
 const currentGame = new Game(gameBoard);
+let gameStarted = false;
+let gameIntervalId;
 
 const checkboxes = [].slice.call(
 	document.querySelectorAll('input[type=checkbox]')
 );
 
-const nextButton = document.querySelector('#next');
+const startStopButton = document.querySelector('#startstop');
 
+const stopGame = () => {
+	gameStarted = false;
+	startStopButton.innerHTML = 'Start';
+	if (gameIntervalId) {
+		clearInterval(gameIntervalId);
+	}
+};
 const onCheckboxChange = ev => {
-	const x = ev.target.dataset.row;
-	const y = ev.target.dataset.col;
-	currentGame.setCell(x, y, !!ev.target.checked);
+	if (!gameStarted) {
+		const x = ev.target.dataset.row;
+		const y = ev.target.dataset.col;
+		currentGame.setCell(x, y, !!ev.target.checked);
+	} else {
+		stopGame();
+	}
 };
 
 const onNext = ev => {
@@ -136,7 +149,18 @@ const onNext = ev => {
 	boardView.setBoard(currentBoard, checkboxes);
 };
 
+const onStartStop = ev => {
+	if (!gameStarted) {
+		gameStarted = true;
+		startStopButton.innerHTML = 'Stop';
+		gameIntervalId = setInterval(onNext, 500);
+	} else {
+		stopGame();
+	}
+};
+
 checkboxes.forEach(checkbox =>
 	checkbox.addEventListener('change', onCheckboxChange)
 );
-nextButton.addEventListener('click', onNext);
+
+startStopButton.addEventListener('click', onStartStop);
