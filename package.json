@@ -5,7 +5,7 @@
   "main": "js/index.js",
   "scripts": {
     "build": "gulp",
-    "prettier": "prettier --write --loglevel=error css/*.* js/*.*"
+    "prettier": "prettier --config .prettierrc.json --write --loglevel=error css/*.* js/*.*"
   },
   "author": "",
   "license": "ISC",
@@ -19,9 +19,8 @@
     "gulp-clean": "^0.3.2",
     "gulp-postcss": "^7.0.0",
     "gulp-uglify": "^3.0.0",
-    "postcss-cssnext": "^3.0.2"
-  },
-  "dependencies": {
+    "postcss-cssnext": "^3.0.2",
     "prettier": "^1.12.1"
-  }
+  },
+  "dependencies": {}
 }
